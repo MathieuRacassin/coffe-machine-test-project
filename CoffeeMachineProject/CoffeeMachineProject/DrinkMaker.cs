@@ -47,6 +47,7 @@ namespace CoffeMachineProject
 
             try
             {
+                // Message case
                 if(receiveInstruction[0] == "M")
                 {
                     this.message = receiveInstruction[1];
@@ -54,10 +55,12 @@ namespace CoffeMachineProject
                     this.stick = false;
                     this.drink = string.Empty;
                 }
+                // Drink case
                 else
                 {
                     this.drink = receiveInstruction[0];
-                    if (receiveInstruction[1] == string.Empty)
+
+                    if (receiveInstruction[1] == "0")
                     {
                         this.sugarQuantity = 0;
                     }
@@ -66,21 +69,23 @@ namespace CoffeMachineProject
                         this.sugarQuantity = Convert.ToInt32(receiveInstruction[1]);
                     }
 
-                    if (receiveInstruction[2]== string.Empty)
+                    if (receiveInstruction[2]== "1" && this.sugarQuantity > 0)
                     {
-                        this.stick = false;
+
+                        this.stick = true;
                     }
                     else
                     {
-                        if(Convert.ToInt32(receiveInstruction[2]) == 1)
-                        {
-                            this.stick = true;
-                        }
-                        else
+                        if(receiveInstruction[2] == "1")
                         {
                             this.stick = false;
                         }
+                        if (receiveInstruction[2] == "0")
+                        {
+                            this.stick = true;
+                        }
                     }
+
                     this.message = string.Empty;
                 }
             }
@@ -210,7 +215,7 @@ namespace CoffeMachineProject
             {
                 if (result[i].Contains(":"))
                 {
-                    result[i] = string.Empty;
+                    result[i] = "0";
                 }
             }
 
