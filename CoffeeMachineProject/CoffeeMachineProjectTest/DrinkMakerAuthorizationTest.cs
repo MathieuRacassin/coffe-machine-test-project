@@ -1,4 +1,5 @@
 ﻿using CoffeeMachineProject;
+using Moq;
 using System;
 using Xunit;
 
@@ -21,7 +22,11 @@ namespace CoffeMachineProjectTest
         {
             var authorization = new DrinkMakerAuthorization(0.7);
 
-            var drink = authorization.ProvideDrink("T:1:0");
+            var beverageQuantity = new Mock<IBeverageQuantityChecker>(MockBehavior.Strict);
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.Tea))
+                    .Returns(false);
+
+            var drink = authorization.ProvideDrink("T:1:0", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.Tea, drink.Drink);
             Assert.Equal(1, drink.SugarQuantity);
@@ -29,15 +34,20 @@ namespace CoffeMachineProjectTest
 
             authorization = new DrinkMakerAuthorization(0.7);
 
-            drink = authorization.ProvideDrink("C:1:0");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.Coffee))
+                    .Returns(false);
+
+            drink = authorization.ProvideDrink("C:1:0", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.Coffee, drink.Drink);
             Assert.Equal(1, drink.SugarQuantity);
             Assert.True(drink.Stick);
 
             authorization = new DrinkMakerAuthorization(0.7);
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.Chocolate))
+                    .Returns(false);
 
-            drink = authorization.ProvideDrink("H:1:0");
+            drink = authorization.ProvideDrink("H:1:0", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.Chocolate, drink.Drink);
             Assert.Equal(1, drink.SugarQuantity);
@@ -49,7 +59,11 @@ namespace CoffeMachineProjectTest
         {
             var authorization = new DrinkMakerAuthorization(0.7);
 
-            var drink = authorization.ProvideDrink("Th:1:0");
+            var beverageQuantity = new Mock<IBeverageQuantityChecker>(MockBehavior.Strict);
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.TeaExtraHot))
+                    .Returns(false);
+
+            var drink = authorization.ProvideDrink("Th:1:0", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.TeaExtraHot, drink.Drink);
             Assert.Equal(1, drink.SugarQuantity);
@@ -57,7 +71,10 @@ namespace CoffeMachineProjectTest
 
             authorization = new DrinkMakerAuthorization(0.7);
 
-            drink = authorization.ProvideDrink("Ch:1:0");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.CoffeeExtraHot))
+                .Returns(false);
+
+            drink = authorization.ProvideDrink("Ch:1:0", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.CoffeeExtraHot, drink.Drink);
             Assert.Equal(1, drink.SugarQuantity);
@@ -65,13 +82,19 @@ namespace CoffeMachineProjectTest
 
             authorization = new DrinkMakerAuthorization(0.7);
 
-            drink = authorization.ProvideDrink("Hh:1:0");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.ChocolateExtraHot))
+                .Returns(false);
+
+            drink = authorization.ProvideDrink("Hh:1:0", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.ChocolateExtraHot, drink.Drink);
             Assert.Equal(1, drink.SugarQuantity);
             Assert.True(drink.Stick);
 
-            drink = authorization.ProvideDrink("O::");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.OrangeJuice))
+                .Returns(false);
+
+            drink = authorization.ProvideDrink("O::", beverageQuantity.Object);
 
             Assert.Equal(DrinkType.OrangeJuice, drink.Drink);
             Assert.Equal(0, drink.SugarQuantity);
@@ -82,8 +105,12 @@ namespace CoffeMachineProjectTest
         public void DrinkProviderNoEnoughMoneyTest()
         {
             var authorization = new DrinkMakerAuthorization(0.2);
+            var beverageQuantity = new Mock<IBeverageQuantityChecker>(MockBehavior.Strict);
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.Tea))
+                    .Returns(false);
 
-            var drink = authorization.ProvideDrink("T:1:0");
+
+            var drink = authorization.ProvideDrink("T:1:0", beverageQuantity.Object);
 
             Assert.Equal(string.Empty, drink.Drink);
             Assert.False(drink.Stick);
@@ -94,7 +121,10 @@ namespace CoffeMachineProjectTest
 
             authorization = new DrinkMakerAuthorization(0.2);
 
-            drink = authorization.ProvideDrink("H:1:0");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.Chocolate))
+                    .Returns(false);
+
+            drink = authorization.ProvideDrink("H:1:0", beverageQuantity.Object);
 
             Assert.Equal(string.Empty, drink.Drink);
             Assert.False(drink.Stick);
@@ -105,7 +135,10 @@ namespace CoffeMachineProjectTest
 
             authorization = new DrinkMakerAuthorization(0.2);
 
-            drink = authorization.ProvideDrink("C:1:0");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.Coffee))
+                    .Returns(false);
+
+            drink = authorization.ProvideDrink("C:1:0", beverageQuantity.Object);
 
             Assert.Equal(string.Empty, drink.Drink);
             Assert.False(drink.Stick);
@@ -114,7 +147,10 @@ namespace CoffeMachineProjectTest
             Assert.Equal("It's missing 0,4 € for your coffee", drink.Message);
             Assert.Equal("M:It's missing 0,4 € for your coffee", drink.Instruction);
 
-            drink = authorization.ProvideDrink("O::");
+            beverageQuantity.Setup(e => e.IsEmpty(DrinkType.OrangeJuice))
+                    .Returns(false);
+
+            drink = authorization.ProvideDrink("O::", beverageQuantity.Object);
 
             Assert.Equal(string.Empty, drink.Drink);
             Assert.False(drink.Stick);

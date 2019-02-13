@@ -54,9 +54,9 @@ namespace CoffeeMachineProject
         /// </summary>
         /// <param name="instruction"></param>
         /// <returns></returns>
-        public DrinkMaker ProvideDrink(string instruction)
+        public DrinkMaker ProvideDrink(string instruction, IBeverageQuantityChecker beverageQuantity)
         {
-            var drink = new DrinkMaker(instruction);
+            var drink = new DrinkMaker(instruction, beverageQuantity);
             var acountDifference = 0.0;
 
             if(drink.Drink == DrinkType.Coffee || drink.Drink == DrinkType.CoffeeExtraHot)
@@ -70,7 +70,7 @@ namespace CoffeeMachineProject
                 {
                     acountDifference = DrinkPrice.CoffeePrice - this.acount;
                     var message = "M:It's missing " + acountDifference.ToString() + " € for your coffee";
-                    drink = new DrinkMaker(message);
+                    drink = new DrinkMaker(message, beverageQuantity);
                 }
             }
             if (drink.Drink == DrinkType.Chocolate || drink.Drink == DrinkType.ChocolateExtraHot)
@@ -84,7 +84,7 @@ namespace CoffeeMachineProject
                 {
                     acountDifference = DrinkPrice.ChocolatePrice - this.acount;
                     var message = "M:It's missing " + acountDifference.ToString() + " € for your chocolate";
-                    drink = new DrinkMaker(message);
+                    drink = new DrinkMaker(message,beverageQuantity);
                 }
             }
             if (drink.Drink == DrinkType.Tea)
@@ -98,7 +98,7 @@ namespace CoffeeMachineProject
                 {
                     acountDifference = DrinkPrice.TeaPrice - this.acount;
                     var message = "M:It's missing " + acountDifference.ToString() + " € for your tea";
-                    drink = new DrinkMaker(message);
+                    drink = new DrinkMaker(message, beverageQuantity);
                 }
             }
             if (drink.Drink == DrinkType.OrangeJuice)
@@ -112,7 +112,7 @@ namespace CoffeeMachineProject
                 {
                     acountDifference = DrinkPrice.OrangeJuicePrice - this.acount;
                     var message = "M:It's missing " + acountDifference.ToString() + " € for your orange juice";
-                    drink = new DrinkMaker(message);
+                    drink = new DrinkMaker(message, beverageQuantity);
                 }
             }
             return drink;

@@ -7,7 +7,7 @@ namespace CoffeeMachineProject
     /// <summary>
     /// Represents a coffe maker
     /// </summary>
-    public class DrinkMaker
+    public partial class DrinkMaker: IEmailNotifier
     {
         /// <summary>
         /// The user instruction
@@ -39,13 +39,14 @@ namespace CoffeeMachineProject
         /// Instanciate the drink maker
         /// </summary>
         /// <param name="instruction">The receive instruction</param>
-        public DrinkMaker(string instruction)
+        public DrinkMaker(string instruction, IBeverageQuantityChecker beverageQuantity)
         {
             var receiveInstruction = this.InstructionReader(instruction);
             this.instruction = instruction;
 
             try
             {
+
                 // Message case
                 if(receiveInstruction[0] == "M")
                 {
@@ -59,30 +60,38 @@ namespace CoffeeMachineProject
                 {
                     this.drink = receiveInstruction[0];
 
-                    if (receiveInstruction[1] == "0")
+                    if(beverageQuantity.IsEmpty(this.drink))
                     {
+                        this.NotifyMissingDrink(this.drink);
                         this.sugarQuantity = 0;
-                    }
-                    else
-                    {
-                        this.sugarQuantity = Convert.ToInt32(receiveInstruction[1]);
-                    }
-
-                    if (this.HasStick(receiveInstruction[2]) && this.sugarQuantity > 0)
-                    {
-                        this.stick = true;
-                    }
-                    if (this.HasStick(receiveInstruction[2]) && this.sugarQuantity == 0)
-                    {
                         this.stick = false;
+                        this.drink = string.Empty;
                     }
                     else
                     {
-                        this.stick = this.HasStick(receiveInstruction[2]);
+                        if (receiveInstruction[1] == "0")
+                        {
+                            this.sugarQuantity = 0;
+                        }
+                        else
+                        {
+                            this.sugarQuantity = Convert.ToInt32(receiveInstruction[1]);
+                        }
+
+                        if (this.HasStick(receiveInstruction[2]) && this.sugarQuantity > 0)
+                        {
+                            this.stick = true;
+                        }
+                        if (this.HasStick(receiveInstruction[2]) && this.sugarQuantity == 0)
+                        {
+                            this.stick = false;
+                        }
+                        else
+                        {
+                            this.stick = this.HasStick(receiveInstruction[2]);
+                        }
+                        this.message = string.Empty;
                     }
-
-
-                    this.message = string.Empty;
                 }
             }
             catch(Exception e)
@@ -207,6 +216,16 @@ namespace CoffeeMachineProject
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="drink"></param>
+        public void NotifyMissingDrink(string drink)
+        {
+            this.message = "Your coffee machine is running out of milk or water for " + drink;
+        }
+
+
+        /// <summary>
         /// Tools to add parameters
         /// </summary>
         /// <param name="drink">The drink value</param>
@@ -243,7 +262,6 @@ namespace CoffeeMachineProject
             {
                 return true;
             }
-
         }
     }
 }
