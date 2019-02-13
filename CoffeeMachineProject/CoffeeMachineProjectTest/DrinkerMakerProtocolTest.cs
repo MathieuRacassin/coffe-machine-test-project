@@ -38,7 +38,7 @@ namespace CoffeMachineProjectTest
             drinkMaker = new DrinkMaker(instruction);
 
             Assert.Equal(DrinkType.Chocolate, drinkMaker.Drink);
-            Assert.True(drinkMaker.Stick);
+            Assert.False(drinkMaker.Stick);
             Assert.Equal(0, drinkMaker.SugarQuantity);
 
             Assert.Equal(string.Empty, drinkMaker.Message);
@@ -49,7 +49,7 @@ namespace CoffeMachineProjectTest
             drinkMaker = new DrinkMaker(instruction);
 
             Assert.Equal(DrinkType.Coffee, drinkMaker.Drink);
-            Assert.True(drinkMaker.Stick);
+            Assert.False(drinkMaker.Stick);
             Assert.Equal(2, drinkMaker.SugarQuantity);
 
             Assert.Equal(string.Empty, drinkMaker.Message);
@@ -60,12 +60,56 @@ namespace CoffeMachineProjectTest
             drinkMaker = new DrinkMaker(instruction);
 
             Assert.Equal(DrinkType.Coffee, drinkMaker.Drink);
-            Assert.True(drinkMaker.Stick);
+            Assert.False(drinkMaker.Stick);
             Assert.Equal(0, drinkMaker.SugarQuantity);
 
             Assert.Equal(string.Empty, drinkMaker.Message);
             Assert.Equal(instruction, drinkMaker.Instruction);
 
+        }
+
+        [Fact]
+        public void ExtaHotAndOrangeJuiceDrinkTest()
+        {
+            var instruction = "O::";
+            var drinkMaker = new DrinkMaker(instruction);
+
+            Assert.Equal(DrinkType.OrangeJuice, drinkMaker.Drink);
+            Assert.False(drinkMaker.Stick);
+            Assert.Equal(0, drinkMaker.SugarQuantity);
+
+            Assert.Equal(string.Empty, drinkMaker.Message);
+            Assert.Equal(instruction, drinkMaker.Instruction);
+
+            instruction = "Ch::";
+            drinkMaker = new DrinkMaker(instruction);
+
+            Assert.Equal(DrinkType.CoffeeExtraHot, drinkMaker.Drink);
+            Assert.False(drinkMaker.Stick);
+            Assert.Equal(0, drinkMaker.SugarQuantity);
+
+            Assert.Equal(string.Empty, drinkMaker.Message);
+            Assert.Equal(instruction, drinkMaker.Instruction);
+
+            instruction = "Hh:1:0";
+            drinkMaker = new DrinkMaker(instruction);
+
+            Assert.Equal(DrinkType.ChocolateExtraHot, drinkMaker.Drink);
+            Assert.True(drinkMaker.Stick);
+            Assert.Equal(1, drinkMaker.SugarQuantity);
+
+            Assert.Equal(string.Empty, drinkMaker.Message);
+            Assert.Equal(instruction, drinkMaker.Instruction);
+
+            instruction = "Th:2:0";
+            drinkMaker = new DrinkMaker(instruction);
+
+            Assert.Equal(DrinkType.TeaExtraHot, drinkMaker.Drink);
+            Assert.True(drinkMaker.Stick);
+            Assert.Equal(2, drinkMaker.SugarQuantity);
+
+            Assert.Equal(string.Empty, drinkMaker.Message);
+            Assert.Equal(instruction, drinkMaker.Instruction);
         }
 
         [Fact]
@@ -93,7 +137,7 @@ namespace CoffeMachineProjectTest
             instruction = "C:2:1";
             drinkMaker = new DrinkMaker(instruction);
 
-            Assert.Equal("C:2:True", drinkMaker.ToString());
+            Assert.Equal("C:2:False", drinkMaker.ToString());
         }
     }
 }

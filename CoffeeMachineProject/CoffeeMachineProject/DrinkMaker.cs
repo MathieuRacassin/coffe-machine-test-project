@@ -69,22 +69,19 @@ namespace CoffeMachineProject
                         this.sugarQuantity = Convert.ToInt32(receiveInstruction[1]);
                     }
 
-                    if (receiveInstruction[2]== "1" && this.sugarQuantity > 0)
+                    if (this.HasStick(receiveInstruction[2]) && this.sugarQuantity > 0)
                     {
-
                         this.stick = true;
+                    }
+                    if (this.HasStick(receiveInstruction[2]) && this.sugarQuantity == 0)
+                    {
+                        this.stick = false;
                     }
                     else
                     {
-                        if(receiveInstruction[2] == "1")
-                        {
-                            this.stick = false;
-                        }
-                        if (receiveInstruction[2] == "0")
-                        {
-                            this.stick = true;
-                        }
+                        this.stick = this.HasStick(receiveInstruction[2]);
                     }
+
 
                     this.message = string.Empty;
                 }
@@ -183,7 +180,7 @@ namespace CoffeMachineProject
         private List<string> InstructionReader(string instruction)
         {
             List<string> reader = new List<string>();
-            if(instruction.Contains(DrinkType.Chocolate) || instruction.Contains(DrinkType.Coffee) || instruction.Contains(DrinkType.Tea))
+            if(instruction.Contains(DrinkType.Chocolate) || instruction.Contains(DrinkType.Coffee) || instruction.Contains(DrinkType.Tea) || instruction.Contains(DrinkType.OrangeJuice))
             {
                 var drink = instruction.Substring(0, 1);
                 var sugar = instruction.Substring(2, 1);
@@ -191,6 +188,16 @@ namespace CoffeMachineProject
 
                 reader = this.ParametersTools(drink, sugar, stick);
             }
+
+            if (instruction.Contains(DrinkType.ChocolateExtraHot) || instruction.Contains(DrinkType.CoffeeExtraHot) || instruction.Contains(DrinkType.TeaExtraHot))
+            {
+                var drink = instruction.Substring(0, 2);
+                var sugar = instruction.Substring(3, 1);
+                var stick = instruction.Substring(instruction.Length - 1);
+
+                reader = this.ParametersTools(drink, sugar, stick);
+            }
+
             if (instruction.Contains("M"))
             {
                 var message = instruction.Substring(0, 1);
@@ -220,6 +227,24 @@ namespace CoffeMachineProject
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Give the stick in function of the instruction value
+        /// </summary>
+        /// <param name="instructionStickValue"></param>
+        /// <returns></returns>
+        private bool HasStick(string instructionStickValue)
+        {
+            if (instructionStickValue == "1")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
         }
     }
 }

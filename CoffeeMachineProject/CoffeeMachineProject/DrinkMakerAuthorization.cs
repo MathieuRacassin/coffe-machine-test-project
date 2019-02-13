@@ -59,7 +59,7 @@ namespace CoffeMachineProject
             var drink = new DrinkMaker(instruction);
             var acountDifference = 0.0;
 
-            if(drink.Drink == DrinkType.Coffee)
+            if(drink.Drink == DrinkType.Coffee || drink.Drink == DrinkType.CoffeeExtraHot)
             {
                 if(this.acount >= DrinkPrice.CoffeePrice)
                 {
@@ -73,7 +73,7 @@ namespace CoffeMachineProject
                     drink = new DrinkMaker(message);
                 }
             }
-            if (drink.Drink == DrinkType.Chocolate)
+            if (drink.Drink == DrinkType.Chocolate || drink.Drink == DrinkType.ChocolateExtraHot)
             {
                 if(this.acount >= DrinkPrice.ChocolatePrice)
                 {
@@ -89,7 +89,7 @@ namespace CoffeMachineProject
             }
             if (drink.Drink == DrinkType.Tea)
             {
-                if(this.acount >= DrinkPrice.TeaPrice)
+                if(this.acount >= DrinkPrice.TeaPrice || drink.Drink == DrinkType.TeaExtraHot)
                 {
                     this.isAuthorized = true;
                     return drink;
@@ -98,6 +98,20 @@ namespace CoffeMachineProject
                 {
                     acountDifference = DrinkPrice.TeaPrice - this.acount;
                     var message = "M:It's missing " + acountDifference.ToString() + " € for your tea";
+                    drink = new DrinkMaker(message);
+                }
+            }
+            if (drink.Drink == DrinkType.OrangeJuice)
+            {
+                if (this.acount >= DrinkPrice.OrangeJuicePrice)
+                {
+                    this.isAuthorized = true;
+                    return drink;
+                }
+                else
+                {
+                    acountDifference = DrinkPrice.OrangeJuicePrice - this.acount;
+                    var message = "M:It's missing " + acountDifference.ToString() + " € for your orange juice";
                     drink = new DrinkMaker(message);
                 }
             }

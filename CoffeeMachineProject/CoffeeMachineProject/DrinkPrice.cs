@@ -23,5 +23,11 @@ namespace CoffeeMachineProject
         /// The tea price
         /// </summary>
         public static double TeaPrice = 0.4;
+
+        /// <summary>
+        /// The orange juice price
+        /// </summary>
+        public static double OrangeJuicePrice = 0.6;
+
     }
 }

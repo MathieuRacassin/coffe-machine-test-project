@@ -46,6 +46,40 @@ namespace CoffeMachineProjectTest
         }
 
         [Fact]
+        public void DrinkExtraHotandOrangeJuiceProviderTest()
+        {
+            var authorization = new DrinkMakerAuthorization(0.7);
+
+            var drink = authorization.ProvideDrink("Th:1:0");
+
+            Assert.Equal(DrinkType.TeaExtraHot, drink.Drink);
+            Assert.Equal(1, drink.SugarQuantity);
+            Assert.True(drink.Stick);
+
+            authorization = new DrinkMakerAuthorization(0.7);
+
+            drink = authorization.ProvideDrink("Ch:1:0");
+
+            Assert.Equal(DrinkType.CoffeeExtraHot, drink.Drink);
+            Assert.Equal(1, drink.SugarQuantity);
+            Assert.True(drink.Stick);
+
+            authorization = new DrinkMakerAuthorization(0.7);
+
+            drink = authorization.ProvideDrink("Hh:1:0");
+
+            Assert.Equal(DrinkType.ChocolateExtraHot, drink.Drink);
+            Assert.Equal(1, drink.SugarQuantity);
+            Assert.True(drink.Stick);
+
+            drink = authorization.ProvideDrink("O::");
+
+            Assert.Equal(DrinkType.OrangeJuice, drink.Drink);
+            Assert.Equal(0, drink.SugarQuantity);
+            Assert.False(drink.Stick);
+        }
+
+        [Fact]
         public void DrinkProviderNoEnoughMoneyTest()
         {
             var authorization = new DrinkMakerAuthorization(0.2);
@@ -80,6 +114,15 @@ namespace CoffeMachineProjectTest
 
             Assert.Equal("It's missing 0,4 € for your coffee", drink.Message);
             Assert.Equal("M:It's missing 0,4 € for your coffee", drink.Instruction);
+
+            drink = authorization.ProvideDrink("O::");
+
+            Assert.Equal(string.Empty, drink.Drink);
+            Assert.False(drink.Stick);
+            Assert.Equal(0, drink.SugarQuantity);
+
+            Assert.Equal("It's missing 0,4 € for your orange juice", drink.Message);
+            Assert.Equal("M:It's missing 0,4 € for your orange juice", drink.Instruction);
         }
     }
 }

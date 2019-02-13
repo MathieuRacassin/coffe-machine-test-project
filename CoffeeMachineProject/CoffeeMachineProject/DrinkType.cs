@@ -23,5 +23,25 @@ namespace CoffeeMachineProject
         /// A tea
         /// </summary>
         public static string Tea = "T";
+
+        /// <summary>
+        /// An orange juice
+        /// </summary>
+        public static string OrangeJuice = "O";
+
+        /// <summary>
+        /// An extra hot coffee
+        /// </summary>
+        public static string CoffeeExtraHot = "Ch";
+
+        /// <summary>
+        /// An extra hot tea
+        /// </summary>
+        public static string TeaExtraHot = "Th";
+
+        /// <summary>
+        /// An extra hot chocolate
+        /// </summary>
+        public static string ChocolateExtraHot = "Hh";
     }
 }
