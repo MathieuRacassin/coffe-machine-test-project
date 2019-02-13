@@ -1,5 +1,4 @@
 ﻿using CoffeeMachineProject;
-using CoffeMachineProject;
 using System;
 using Xunit;
 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CoffeMachineProject
+namespace CoffeeMachineProject
 {
     /// <summary>
     /// Represents the money acount to provide the drink
