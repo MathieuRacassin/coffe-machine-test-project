@@ -5,7 +5,7 @@ using System.Text;
 namespace CoffeeMachineProject
 {
     /// <summary>
-    /// Represent the drink level of each drink
+    /// Represent the drink level of each drink in the coffee machine
     /// </summary>
     public partial class DrinkLevel : IBeverageQuantityChecker
     {

@@ -6,7 +6,7 @@ using System.Text;
 namespace CoffeeMachineProject
 {
     /// <summary>
-    /// Represents the money acount to provide the drink
+    /// Represents the authorization to provide the drink
     /// </summary>
     public class DrinkMakerAuthorization
     {
